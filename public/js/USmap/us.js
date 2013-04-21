@@ -1,6 +1,6 @@
 var map = L.map('map').setView([37.8, -96], 4);
 function getColor(d) {
-    if(d==null){return '#00F'}//{return '#FAF5F7'}
+    if(d==null){return '#DDD'}//{return '#FAF5F7'}
     return d > 1000 ? '#800026' :
            d > 500  ? '#BD0026' :
            d > 200  ? '#E31A1C' :
@@ -110,9 +110,10 @@ info.onAdd = function (map) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
-      this._div.innerHTML = '<h4>State Centers Reviews</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.density + ' Sentiments Level<sup>2</sup>'
-        : 'Hover over a non-blue state');
+    
+    this._div.innerHTML = '<h4>State Centers Reviews</h4>' +  (props ?
+        '<b>' +props.name+ '</b><br />' + props.density + ' Sentiments Level'
+        : 'Hover over a non-grey state');
 };
 
 info.addTo(map);
@@ -123,7 +124,7 @@ var legend = L.control({position: 'bottomright'});
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-        labels = ["Mad","Angry","Mourning","Sad","Tired","Missing","Loved"];
+        labels = ["Mad","Angry","Mourning","Sad","Tired","Ready","Missing","Loved"];
 
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
