@@ -111,8 +111,8 @@ info.onAdd = function (map) {
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
       this._div.innerHTML = '<h4>State Centers Reviews</h4>' +  (props ?
-        '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
-        : 'Hover over a coloured state');
+        '<b>' + props.name + '</b><br />' + props.density + ' Sentiments Level<sup>2</sup>'
+        : 'Hover over a non-blue state');
 };
 
 info.addTo(map);
@@ -123,13 +123,13 @@ var legend = L.control({position: 'bottomright'});
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-        labels = [];
+        labels = ["Mad","Angry","Mourning","Sad","Tired","Missing","Loved"];
 
     // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] +" "+labels[i]+'<br>' : '+');
     }
 
     return div;

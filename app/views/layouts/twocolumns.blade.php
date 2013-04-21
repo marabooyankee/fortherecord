@@ -67,13 +67,14 @@
 
                 <div class="span12">
 
-                    <div class="span6">
-                        <canvas id="myChart" width="400" height="400"></canvas>
+                    <div class="span12">
+                        <canvas id="myChart" width="800" height="800"></canvas>
                     </div>
-                    <div class="span6">
-                        <canvas id="pieChart" width="400" height="400"></canvas>
-                    </div>
+                   
                 </div>
+                 <div class="span12">
+                        <div id="map">map</div>
+                    </div>
 
             </div>
 
@@ -90,7 +91,10 @@
 
 @section('headerstyles')
 
-<link href='js/jquery.cssemoticons.css'/>
+<link href='/js/jquery.cssemoticons.css'/>
+<link rel="stylesheet" href="/js/USmap/leaflet.css" />
+<link rel="stylesheet" href="/js/USmap/mapus.css" />
+<script src="/js/USmap/leaflet.js"></script>
 @stop
 
 @section("footerjs")
@@ -100,30 +104,34 @@
 <script src="{{URL::to('js/textext/txtext.js')}}"></script>
 <script src="{{URL::to('js/Chart.min.js')}}"></script>
 <script src="{{URL::to('js/jquery.cssemoticons.min.js')}}"></script>
+ <script src='/js/USmap/us-states.js'></script>
+ <script src='/js/USmap/us.js'></script>
 <script>
 
     $(document).ready(new function() {
 
         var ctx = document.getElementById("myChart").getContext("2d");
 
-        $('#PostTextArea').emoticonize();
+        $('textarea').change(function() {
+            $("textarea").emoticonize();
+        });
 
 
-        var colours=[
-            'rgba(151,187,205,0.5)','rgba(151,11,205,0.5)','rgba(191,187,225,0.5)','rgba(90,187,167,0.5)','rgba(189,109,111,0.5)','rgba(000,00,000,0.5)','rgba(111,0,255,0.5)','rgba(255,255,255,0.5)'
-            
+        var colours = [
+            'rgba(151,187,205,0.5)', 'rgba(151,11,205,0.5)', 'rgba(191,187,225,0.5)', 'rgba(90,187,167,0.5)', 'rgba(189,109,111,0.5)', 'rgba(000,00,000,0.5)', 'rgba(111,0,255,0.5)', 'rgba(255,255,255,0.5)'
+
         ];
 
         $.get('{{URL::to("strongfeelings")}}', function(parameters) {
 
-//            var numdata = [];
-//            var names = [];
+            var numdata = [];
+            var names = [];
 //            var piedata=[];
-//            $.each(parameters, function(key, value) {
-//                numdata.push(value.num);
-//                names.push(value.feeling.feeling);
+            $.each(parameters, function(key, value) {
+                numdata.push(value.num);
+                names.push(value.feeling.feeling);
 //                piedata.push({value.num,colours[key]});
-//            });
+            });
 
             var data = {
                 labels: names,
@@ -226,10 +234,10 @@
             });
             $("#tags").html(tags);
 
-            var piechart = document.getElementById("pieChart").getContext("2d");
-            var data = [];
-
-            new Chart(piechart).Pie(piedata);
+//            var piechart = document.getElementById("pieChart").getContext("2d");
+//            var data = [];
+//
+//            new Chart(piechart).Pie(piedata);
 
         });
 
