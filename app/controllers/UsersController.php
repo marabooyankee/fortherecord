@@ -7,9 +7,8 @@ class UsersController extends BaseController {
      *
      * @return Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return View::make('users.index');
     }
 
     /**
@@ -17,8 +16,7 @@ class UsersController extends BaseController {
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -27,8 +25,7 @@ class UsersController extends BaseController {
      *
      * @return Response
      */
-    public function store()
-    {
+    public function store() {
         //
     }
 
@@ -38,9 +35,10 @@ class UsersController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
-    {
-        //
+    public function show($user) {
+        $user = User::findOrFail($user);
+
+        return View::make('users.show')->with("user", $user->toArray());
     }
 
     /**
@@ -49,9 +47,9 @@ class UsersController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        $user = User::findOrFail($id);
+        return View::make("users.edit")->with("user", $user);
     }
 
     /**
@@ -60,9 +58,33 @@ class UsersController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
-    {
-        //
+    public function update($id) {
+        $user = User::find($id);
+
+        
+            $user->firstname = Input::get('firstname');
+
+       
+            $user->lastname = Input::get('lastname');
+        
+  
+            $user->email = Input::get('email');
+        
+       
+            $user->major = Input::get('major');
+        
+       
+            $user->education_level = Input::get('education_level');
+        
+        
+            $user->activity = Input::get('activity');
+
+      
+//            $user->secondname = Input::get('location');
+
+
+        $user->save();
+        return Redirect::to("/users/".$user->id);
     }
 
     /**
@@ -71,8 +93,7 @@ class UsersController extends BaseController {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 

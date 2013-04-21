@@ -55,8 +55,8 @@ class HomeController extends BaseController {
 
         $user = User::create($userCredentials);
 
-        Auth::login($user->id);
-        return Redirect("/profile");
+       Auth::loginUsingId($user->id);
+        return Redirect::to("/users/$user->id");
     }
 
     public function getProfile() {
@@ -66,33 +66,43 @@ class HomeController extends BaseController {
     public function getFeeling() {
         return View::make("home.feeling");
     }
+
     public function postFeeling() {
-        
-        $feeling=Input::get('emotion');
+
+        $feeling = Input::get('emotion');
         //clean feeling
-        $feeling=preg_replace("/[^A-Za-z0-9 ]/", '', $feeling);
-        
+        $feeling = preg_replace("/[^A-Za-z0-9 ]/", '', $feeling);
+
         /* @var $dbfeeling Feeling */
-        $dbfeeling=Feeling::whereFeeling($feeling)->first();
-        
-        $text=Input::get('text');
-        
-        $post=new Post();
-        $post->text=$text;        
-        
+        $dbfeeling = Feeling::whereFeeling($feeling)->first();
+
+        $text = Input::get('text');
+
+        $post = new Post();
+        $post->text = $text;
+
         return $dbfeeling->posts()->save($post);
-        
-        
     }
 
     public function getRecentfeelings() {
         return Post::with("feelings")->take(10)->get();
     }
+
     public function getStrogestFeelings() {
-        
-        return FeelingsPost::with(array("feeling"))->groupBy('feeling_id')->get(array('feeling_id',DB::raw('Count(*) as num')));
-        
+
+        return FeelingsPost::with(array("feeling"))->groupBy('feeling_id')->orderBy('num', 'desc')->get(array(
+                    'feeling_id', DB::raw('Count(*) as num')));
     }
 
-   
+    public function postLogin() {
+        $email = Input::get('email');
+        $password = Input::get('password');
+
+        if (Auth::attempt(array('email' => $email, 'password' => $password))) {
+            return Redirect::to('user/' . Auth::user()->id);
+        }
+
+        return Redirect::to('/')->with('message', 'Login failed');
+    }
+
 }

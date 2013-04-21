@@ -18,16 +18,24 @@ Route::post("signup", array("uses" => "HomeController@postSignup"));
 
 Route::get("/", array("uses" => "HomeController@showWelcome"));
 
-Route::get("feeling", array("uses" => "HomeController@getFeeling"));
+Route::get("feelings", array("uses" => "HomeController@getFeeling"));
 
 Route::post("feeling", array("uses" => "HomeController@postFeeling"));
 
 Route::get("{user}/feeling", array("uses" => "HomeController@getUserFeeling"))
         ->where("user", "[a-z]+");
 
-Route::get('recentfeelings',array("uses"=>  'HomeController@getRecentfeelings'));
-Route::get('strongfeelings',array("uses"=> 'HomeController@getStrogestFeelings'));
-Route::resource('users', 'UsersController');
+Route::get('recentfeelings', array("uses" => 'HomeController@getRecentfeelings'));
+Route::get('strongfeelings', array("uses" => 'HomeController@getStrogestFeelings'));
+
+Route::post('login', array("uses" => 'HomeController@postLogin'));
+
+
+Route::group(array("before" => "auth"),
+        function () {
+            Route::resource('users', 'UsersController');
+        });
+
 
 
 

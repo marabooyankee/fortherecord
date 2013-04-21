@@ -14,20 +14,24 @@
                     <fieldset>
 
                         <!-- Form Name -->
-                        <legend>Form Name</legend>
-                        <input id="Emotion" name="emotion" placeholder="emotion here" class="span3">
+                        <legend>Post It</legend>
+                        <div >
+                            <input id="Emotion" name="emotion" placeholder="emotion here" class="span3">
+                            <hr>
+                            <textarea id='PostTextArea' name="text" class="span2" placeholder="Speak your heart out"></textarea>
 
-                        <textarea id='PostTextArea' name="text" class="span3" placeholder="Speak your heart out"></textarea>
-                        <br/>
-                        <button class="btn pull-right"  type="submit">Post</button>
+                            <button class="btn pull-center span2 "  type="submit">Post</button>
+                        </div>
                     </fieldset>
                 </form>
                 <div class="block">
-                    <h4 class="title-divider"><span>Tags</span></h4>
-                    <div class="tag-cloud"> <span><a href="#">culture</a> (12)</span> <span><a href="#">general</a> (51)</span> <span><a href="#">coding</a> (43)</span> <span><a href="#">design</a> (84)</span> <span><a href="#">weather</a> (15)</span> <span><a href="#">jobs</a> (54)</span> <span><a href="#">health</a> (68)</span> </div>
+                    <h4 class="title-divider"><span>Trending</span></h4>
+                    <div class="tag-cloud" id="tags">
+
+                    </div>
                 </div>
 
-                <div class="block"> <a href="#" class="btn btn-warning"><i class="icon-rss"></i> Subscribe via RSS feed</a> </div>
+
             </div>
         </div>
 
@@ -67,7 +71,7 @@
                         <canvas id="myChart" width="400" height="400"></canvas>
                     </div>
                     <div class="span6">
-
+                        <canvas id="pieChart" width="400" height="400"></canvas>
                     </div>
                 </div>
 
@@ -84,7 +88,10 @@
 
 @stop
 
+@section('headerstyles')
 
+<link href='js/jquery.cssemoticons.css'/>
+@stop
 
 @section("footerjs")
 <script src="{{URL::to('js/textillate/assets/jquery.fittext.js')}}"></script>
@@ -92,31 +99,41 @@
 <script src="{{URL::to('js/jquery.innerfade.js')}}"></script>
 <script src="{{URL::to('js/textext/txtext.js')}}"></script>
 <script src="{{URL::to('js/Chart.min.js')}}"></script>
+<script src="{{URL::to('js/jquery.cssemoticons.min.js')}}"></script>
 <script>
 
     $(document).ready(new function() {
 
         var ctx = document.getElementById("myChart").getContext("2d");
 
+        $('#PostTextArea').emoticonize();
+
+
+        var colours=[
+            'rgba(151,187,205,0.5)','rgba(151,11,205,0.5)','rgba(191,187,225,0.5)','rgba(90,187,167,0.5)','rgba(189,109,111,0.5)','rgba(000,00,000,0.5)','rgba(111,0,255,0.5)','rgba(255,255,255,0.5)'
+            
+        ];
 
         $.get('{{URL::to("strongfeelings")}}', function(parameters) {
 
-            var data = [];
-            var names = [];
-            $.each(parameters, function(key, value) {
-                data.push(value.num);
-                names.push(value.feeling.feeling);
-            });
+//            var numdata = [];
+//            var names = [];
+//            var piedata=[];
+//            $.each(parameters, function(key, value) {
+//                numdata.push(value.num);
+//                names.push(value.feeling.feeling);
+//                piedata.push({value.num,colours[key]});
+//            });
 
             var data = {
                 labels: names,
                 datasets: [
                     {
-                        fillColor : "rgba(151,187,205,0.5)",
-			strokeColor : "rgba(151,187,205,1)",
-			pointColor : "rgba(151,187,205,1)",
-			pointStrokeColor : "#fff",
-                        data: data,
+                        fillColor: "rgba(151,187,205,0.5)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        data: numdata,
                     }
 //                    ,{
 //                        fillColor: "rgba(151,187,205,0.5)",
@@ -127,7 +144,7 @@
 //                    }
                 ]
             };
-           options = {
+            options = {
                 //Boolean - If we show the scale above the chart data			
                 scaleOverlay: false,
                 //Boolean - If we want to override with a hard coded scale
@@ -201,8 +218,18 @@
                 onAnimationComplete: null
 
             };
+            new Chart(ctx).Radar(data, options);
+//             <span><a href="#">culture</a> (12)</span> 
+            var tags = '';
+            $.each(names, function(key, value) {
+                tags += '<span><a href="#">' + value + '</a> (' + numdata[key] + ')</span>';
+            });
+            $("#tags").html(tags);
 
-            new Chart(ctx).Radar(data,options);
+            var piechart = document.getElementById("pieChart").getContext("2d");
+            var data = [];
+
+            new Chart(piechart).Pie(piedata);
 
         });
 
@@ -221,8 +248,8 @@
             $('#kucatchnayo').html(paragraph);
 
             $('#kucatchnayo').innerfade(
-                    {animationtype: 'slide',
-                        speed: 1000,
+                    {animationtype: 'fade',
+                        speed: 'slow',
                         timeout: 2000,
                         type: 'random',
                         containerheight: '1em'}
@@ -241,7 +268,7 @@
         });
 
         $('#postIt').submit(function() {
-            var data = $('#postIt').serialize()
+            var data = $('#postIt').serialize();
 
             $.post("{{URL::to('feeling')}}", data, function(result) {
                 console.log(result);

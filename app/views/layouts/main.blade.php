@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>NASAHearts|@yield("title")</title>
+<title>NASA Hearts|@yield("title")</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- @todo: fill with your company info or remove -->
@@ -57,7 +57,7 @@
             <a class="brand" href="index.htm" title="Home">
             <h1><span>Nasa</span> Hearts<span>.</span></h1>
             </a>
-            <div class="slogan">Responsive HTML Theme</div>
+            <div class="slogan">Hearts </div>
           </div>
           
           <!--header rightside-->
@@ -77,42 +77,45 @@
         
         <!--mobile collapse menu button--> 
         <a class="btn btn-navbar pull-left" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
-        
+        @if(!Auth::check())
         <!--user menu-->
         <ul class="nav user-menu pull-right">
-          <li><a href="signup.htm" class="btn btn-primary signup">Sign Up</a></li>
-          <li class="dropdown"> <a href="login.htm" class="btn btn-primary dropdown-toggle login" id="login-drop" data-toggle="dropdown">Login</a>
+          <li><a href="sigProfilnup" class="btn btn-primary signup">Sign Up</a></li>
+          <li class="dropdown"> <a href="login" class="btn btn-primary dropdown-toggle login" id="login-drop" data-toggle="dropdown">Login</a>
             <div class="dropdown-menu" role="menu" aria-labelledby="login-drop">
-              <form action="login.htm" class="form-inline" id="login-form-drop" role="menuitem">
+                
+              <form action="/login" method='post' class="form-inline" id="login-form-drop" role="menuitem">
                 <div class="input-append">
-                  <input class="input-small email" placeholder="Email" type="text">
+                  <input class="input-small email" placeholder="Email" type="email">
                   <input class="input-small password" placeholder="Password" type="password">
-                  <input class="btn btn-primary login" value="Login" type="button">
+                  <input class="btn btn-primary login" value="Login" type="submit">
                 </div>
               </form>
               <span class="divider" role="menuitem"></span> <small role="menuitem">Not a member? <a href="#" class="signup">Sign up now!</a></small> <small role="menuitem"><a href="#">Forgotten password?</a></small> </div>
           </li>
         </ul>
+        @endif
         
         <!--everything within this div is collapsed on mobile-->
         <div class="nav-collapse collapse"> 
           
           <!--main navigation-->
           <ul class="nav" id="main-menu">
-            <li class="home-link"><a href="index.htm"><i class="icon-home hidden-phone"></i><span class="visible-phone">Home</span></a></li>
-            <li class="dropdown"><a href="features.htm" class="dropdown-toggle menu-item" id="features-drop" data-toggle="dropdown">Features +</a> 
+            <li class="home-link"><a href="/"><i class="icon-home hidden-phone"></i><span class="visible-phone">Home</span></a></li>
+            <li class="dropdown"><a href="/feelings" class="dropdown-toggle menu-item" id="features-drop" data-toggle="dropdown">Feelings +</a> 
               <!-- Dropdown Menu -->
               <ul class="dropdown-menu mega-menu" role="menu" aria-labelledby="features-drop">
                 <li class="mega-menu-wrapper" role="menuitem"> <span class="menu-title">Mega Menu with links &amp; text items</span>
                   <ul class="row-fluid" role="menu">
-                    <li class="span4" role="menuitem"> <a href="features.htm"><img src="img/features/feature-1.png" alt="Feature 1"></a> <a href="features.htm" tabindex="-1" class="menu-item">Mobile Friendly</a> <span>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio!</span> </li>
-                    <li class="span4" role="menuitem"> <a href="features.htm"><img src="img/features/feature-2.png" alt="Feature 2"></a> <a href="features.htm" tabindex="-1" class="menu-item">24/7 Support</a> <span>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio!</span> </li>
-                    <li class="span4" role="menuitem"> <a href="features.htm"><img src="img/features/feature-4.png" alt="Feature 4"></a> <a href="features.htm" tabindex="-1" class="menu-item">99% Uptime</a> <span>Rhoncus adipiscing, magna integer cursus augue eros lacus porttitor magna. Dictumst, odio!</span> </li>
+                    <li class="span4" role="menuitem"> <a href="feeling"><img src="img/features/feature-1.png" alt="Feature 1"></a> <a href="features" tabindex="-1" class="menu-item">Mobile Friendly</a> <span>Made using responsive mobile technology so that it scales between your desktop tablet and mobile phone  </span> </li>
+                    <li class="span4" role="menuitem"> <a href="feeling"><img src="img/features/feature-2.png" alt="Feature 2"></a> <a href="features" tabindex="-1" class="menu-item">Json Api </a> <span>In the spirit of sharing our data the data is available though our json api</span> </li>
                   </ul>
                 </li>
               </ul>
             </li>
-            <li><a href="pricing.htm" class="menu-item">Pricing</a></li>
+            @if(Auth::check())
+            <li><a href="/users/{{Auth::user()->id}}" class="menu-item">Profile</a></li>
+            @endif
             <li><a href="customers.htm" class="menu-item">Customers</a></li>
             <li class="dropdown"> <a href="about.htm" class="dropdown-toggle" id="about-drop" data-toggle="dropdown">About +</a> 
               <!-- Dropdown Menu -->
