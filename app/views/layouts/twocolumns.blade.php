@@ -246,7 +246,7 @@
             var paragraph = '';
             $.each(data, function(key, value) {
                 paragraph += '<li class="animated">\n\
-            <div class="tags"><a href="#" class="type">feeling</a>/<a href="#" class="tag">' + value.feelings[0].feeling + '</a> \n\
+            <div class="tags"><a href="#" class="type">feeling</a> / <a href="#" class="tag">' + value.feelings[0].feeling + '</a> \n\
         \n\
             </div>' + value.text + '</li>';
 
