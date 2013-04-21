@@ -18,14 +18,17 @@ Route::post("signup", array("uses" => "HomeController@postSignup"));
 
 Route::get("/", array("uses" => "HomeController@showWelcome"));
 
+Route::get("feeling", array("uses" => "HomeController@getFeeling"));
+
+Route::post("feeling", array("uses" => "HomeController@postFeeling"));
+
+Route::get("{user}/feeling", array("uses" => "HomeController@getUserFeeling"))
+        ->where("user", "[a-z]+");
+
+Route::get('recentfeelings',array("uses"=>  'HomeController@getRecentfeelings'));
+Route::get('strongfeelings',array("uses"=> 'HomeController@getStrogestFeelings'));
 Route::resource('users', 'UsersController');
 
-Route::get("mail",
-        function () {
-            $token = 'haha';
-            return Mail::send("emails.auth.reminder", array('token' => $token),
-                            function ($m) {
-                                $m->from('nightmare365@codegladiators.com');
-                                $m->to("kimkam90@gmail.com");
-                            });
-        });
+
+
+
