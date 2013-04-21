@@ -70,11 +70,11 @@
                     <div class="span12">
                         <canvas id="myChart" width="800" height="800"></canvas>
                     </div>
-                   
+
                 </div>
-                 <div class="span12">
-                        <div id="map">map</div>
-                    </div>
+                <div class="span12">
+                    <div id="map">map</div>
+                </div>
 
             </div>
 
@@ -104,8 +104,8 @@
 <script src="{{URL::to('js/textext/txtext.js')}}"></script>
 <script src="{{URL::to('js/Chart.min.js')}}"></script>
 <script src="{{URL::to('js/jquery.cssemoticons.min.js')}}"></script>
- <script src='/js/USmap/us-states.js'></script>
- <script src='/js/USmap/us.js'></script>
+<script src='/js/USmap/us-states.js'></script>
+<script src='/js/USmap/us.js'></script>
 <script>
 
     $(document).ready(new function() {
@@ -246,8 +246,8 @@
             var paragraph = '';
             $.each(data, function(key, value) {
                 paragraph += '<li class="animated">\n\
-            <div class="tags"><a href="#" class="tag">' + value.feelings[0].feeling + '</a> /\n\
-        <a href="#" class="type">feeling</a>\n\
+            <div class="tags"><a href="#" class="type">feeling</a>/<a href="#" class="tag">' + value.feelings[0].feeling + '</a> \n\
+        \n\
             </div>' + value.text + '</li>';
 
 
